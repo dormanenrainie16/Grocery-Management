@@ -7,39 +7,37 @@ namespace ShoppingSPA.Persistence
 {
     public static class DbMock
     {
-        public static List<Semester> Semesters = new List<Semester> { 
-            new Semester{Id = 1, Name = "Fall2019"},
-            new Semester{Id = 2, Name = "Spring2020"},
-            new Semester{Id = 3, Name = "Summer2020"}
+        public static List<Store> Stores = new List<Store> {
+            new Store{Id = 1, Name = "Walmart"},
+            new Store{Id = 2, Name = "Target"},
+            new Store{Id = 3, Name = "Publix"}
         };
 
-        public static List<Course> Classes = new List<Course> {
-            new Course{SemesterId = 1, Id = 0, CourseName = "Software Engingeering 1", CourseCode = "CEN 4020", Enrollment = 120, Instructor = "Sonya P"},
-            new Course{SemesterId = 2, Id = 1, CourseName = "C# Programming", CourseCode = "CIS 4930", Instructor = "Chris Mills", Enrollment = 43},
-            new Course{SemesterId =3, Id = 2, CourseName = "Intro to Programming", CourseCode = "COP 3330", Instructor = "Chris Mills", Enrollment = 250},
-            new Course{SemesterId = 2, Id = 3, CourseName = "Op Sys", CourseCode = "COP 4610", Instructor = "An-i Wang", Enrollment = 200}
+        public static List<Grocery> Groceries = new List<Grocery> {
+            new Grocery{StoreId = 1, Id = 0, GrocName = "Apples", Brand = "Gala", Quantity = 120},
+            new Grocery{StoreId = 2, Id = 1, GrocName = "Oranges", Brand = "Florida", Quantity = 43},
+            new Grocery{StoreId =3, Id = 2, GrocName = "Grapes", Brand = "GrapeBrand", Quantity = 250},
+            new Grocery{StoreId = 2, Id = 3, GrocName = "Lemons", Brand = "LemonAid", Quantity = 200}
         };
     }
 
-    public partial class Semester
+    public partial class Store
     {
         public int Id { get; set; }
         public string Name { get; set; }
     }
 
-    public partial class Course
+    public partial class Grocery
     {
-        public int SemesterId { get; set; }
+        public int StoreId { get; set; }
 
         public int Id { get; set; }
 
-        public string CourseName { get; set; }
+        public string GrocName { get; set; }
 
-        public string CourseCode { get; set; }
+        public string Brand { get; set; }
 
-        public string Instructor { get; set; }
-
-        public int Enrollment { get; set; }
+        public int Quantity { get; set; }
 
 
     }
