@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Ajax.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -7,37 +8,35 @@ namespace ShoppingSPA.Persistence
 {
     public static class DbMock
     {
-        public static List<Store> Stores = new List<Store> {
-            new Store{Id = 1, Name = "Walmart"},
-            new Store{Id = 2, Name = "Target"},
-            new Store{Id = 3, Name = "Publix"}
+        public static List<Semester> Semesters = new List<Semester> { 
+            new Semester{Id = 1, Name = "Fall2019"},
+            new Semester{Id = 2, Name = "Spring2020"},
+            new Semester{Id = 3, Name = "Summer2020"}
         };
 
-        public static List<Grocery> Groceries = new List<Grocery> {
-            new Grocery{StoreId = 1, Id = 0, GrocName = "Apples", Brand = "Gala", Quantity = 120},
-            new Grocery{StoreId = 2, Id = 1, GrocName = "Oranges", Brand = "Florida", Quantity = 43},
-            new Grocery{StoreId =3, Id = 2, GrocName = "Grapes", Brand = "GrapeBrand", Quantity = 250},
-            new Grocery{StoreId = 2, Id = 3, GrocName = "Lemons", Brand = "LemonAid", Quantity = 200}
-        };
+        public static Course[] Classes = new Course[500];
+
     }
 
-    public partial class Store
+    public partial class Semester
     {
         public int Id { get; set; }
         public string Name { get; set; }
     }
 
-    public partial class Grocery
+    public partial class Course
     {
-        public int StoreId { get; set; }
+        public int SemesterId { get; set; }
 
         public int Id { get; set; }
 
-        public string GrocName { get; set; }
+        public string CourseName { get; set; }
 
-        public string Brand { get; set; }
+        public string CourseCode { get; set; }
 
-        public int Quantity { get; set; }
+        public string Instructor { get; set; }
+
+        public int Enrollment { get; set; }
 
 
     }

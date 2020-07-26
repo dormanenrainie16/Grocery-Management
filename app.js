@@ -1,129 +1,140 @@
 ﻿var app = angular.module("ABET", ["ngRoute"]);
 app.controller('mainCtrl', function ($scope, $http) {
-    $scope.nextStore = 4;
+    $scope.nextSemester = 4;
     //$scope.semesters = [{ id: 1, name: 'Fall2019' }, { id: 2, name: 'Spring2020' }, { id: 3, name: 'Summer2020' }];
-    $scope.nextGrocery = 4;
+   // $scope.classes[0] = {Id: 0, CourseName: 'Software Engineering 1', CourseCode: 'CEN 4020', Enrollment: 120, Instructor: "Sonya P", SemesterId: 1};
+    $scope.nextClass = 0;
     $http({
         method: 'GET',
-        url: 'api/Store/Get'
+        url: 'api/Semester/Get'
     }).then(function success(response) {
-        $scope.stores = response.data;
+        $scope.semesters = response.data;
     }, function failure() {
 
     });
 
     $http({
         method: 'GET',
-        url: 'api/Store/GetById/2'
+        url:'api/Semester/GetById/2'
     }).then(function success(response) {
-        $scope.selectedStore = response.data;
+        $scope.selectedSemester = response.data;
     }, function failure() {
 
     });
 
+    $http({
+        method: 'GET',
+        url: 'api/Course/Get'
+    }).then(function success(response) {
+        $scope.classes = response.data;
+    }, function failure() {
 
+    });
 
-    $scope.selectStore = function (store) {
-        $scope.addingStore = false;
-        $scope.selectedGroc = undefined;
-        $scope.selectedStore = store;
+    $scope.selectSemester = function (semester) {
+        $scope.addingSemester = false;
+        $scope.selectedClass = undefined;
+        $scope.selectedSemester = semester;
     }
 
-    // $scope.classes = [{ id: 0, course: { id: 0, courseName: 'Software Engineering 1', courseCode: 'CEN 4020' }, semesterId: 2, instructor: 'Chris Mills', syllabus: null, canvasLink: '', enrollment: 120 },
+   // $scope.classes = [{ id: 0, course: { id: 0, courseName: 'Software Engineering 1', courseCode: 'CEN 4020' }, semesterId: 2, instructor: 'Chris Mills', syllabus: null, canvasLink: '', enrollment: 120 },
     //    { id: 1, course: { id: 1, courseName: 'C# Application Development', courseCode: 'CIS 4930' }, semesterId: 1, instructor: 'Chris Mills', syllabus: null, canvasLink: '', enrollment: 17 }];
 
-    $scope.selectGrocery = function (groc) {
-        $scope.addingGrocery = false;
-        $scope.selectedGrocery = groc;
+    $scope.selectClass = function (cl) {
+        $scope.addingClass = false;
+        $scope.selectedClass = cl;
     }
 
-    $scope.showNewGrocery = function () {
-        $scope.addingGrocery = true;
-        $scope.selectedGrocery = new Object();
-        $scope.selectedGrocery.grocery = new Object();
+    $scope.showNewClass = function () {
+        $scope.addingClass = true;
+        $scope.selectedClass = new Object();
+      //  $scope.selectedClass.course = new Object();
     }
 
-    $scope.addGrocry = function () {
-        $scope.selectedGrocery.storeId = $scope.selectedStore.Id;
+    $scope.addClass = function () {
+        $scope.selectedClass.semesterId = $scope.selectedSemester.Id;
         // $scope.classes.push($scope.selectedClass);
-        $scope.selectedGrocery.id = $scope.nextGrocery;
-        $scope.nextGrocery += 1;
+        $scope.selectedClass.Id = $scope.nextClass;
+        
 
         $http({
             method: 'POST',
-            url: 'api/Grocery/AddOrUpdate',
-            data: $scope.selectedGrocery
+            url: 'api/Course/AddOrUp',
+            data: $scope.selectedClass
         }).then(function success(response) {
-            $scope.groceries.push(response.data);
+            // $scope.classes.push(response.data);
+            $scope.classes[nextClass] = response.data;
         }, function failure() {
 
         });
 
-        $scope.selectedGrocery = undefined;
-        $scope.addingGrocery = false;
+        $scope.nextClass += 1;
+        $scope.selectedClass = undefined;
+        $scope.addingClass = false;
     }
 
-    $scope.cancelAddGrocery = function () {
-        $scope.selectedGrocery = undefined;
-        $scope.addingGrocery = false;
+    $scope.cancelAddClass = function () {
+        $scope.selectedClass = undefined;
+        $scope.addingClass = false;
+     
     }
 
-    $scope.showNewStore = function () {
-        $scope.selectedStore = undefined;
-        $scope.addingStore = true;
+    $scope.showNewSemester = function () {
+        $scope.selectedSemester = undefined;
+        $scope.addingSemester = true;
     }
-    $scope.addStore = function () {
-        $scope.selectedStore.id = $scope.nextStore;
-        $scope.nextStore += 1;
-
+    $scope.addSemester = function () {
+        $scope.selectedSemester.id = $scope.nextSemester;
+        $scope.nextSemester += 1;
+        
 
         $http({
             method: 'POST',
-            url: 'api/Store/AddOrUpdate',
-            data: $scope.selectedStore
+            url: 'api/Semester/AddOrUpdate',
+            data: $scope.selectedSemester
         }).then(function success(response) {
-            $scope.stores.push(response.data);
+            $scope.semesters.push(response.data);
         }, function failure() {
 
         });
 
-        $scope.selectedStore = undefined;
-        $scope.addingStore = false;
+        $scope.selectedSemester = undefined;
+        $scope.addingSemester = false;
     }
 
-    $scope.cancelAddStore = function () {
-        $scope.selectedStore = undefined;
-        $scope.addingStore = false;
+    $scope.cancelAddSemester = function () {
+        $scope.selectedSemester = undefined;
+        $scope.addingSemester = false;
     }
 
-    $scope.removeStore = function (id) {
+    $scope.removeSemester = function (id) {
         var indexToDelete = -1;
-        for (i = 0; i < $scope.stores.length; i++) {
-            if ($scope.stores[i].id === id) {
+        for (i = 0; i < $scope.semesters.length; i++) {
+            if ($scope.semesters[i].Id === id) {
                 indexToDelete = i;
                 break;
             }
         }
         if (indexToDelete >= 0) {
-            $scope.stores.splice(indexToDelete, 1);
+            $scope.semesters.splice(indexToDelete, 1);
         }
 
     }
 
-    $scope.removeGrocery = function (id) {
+    $scope.removeClass = function (id) {
         var indexToDelete = -1;
-        for (i = 0; i < $scope.groceries.length; i++) {
-            if ($scope.groceries[i].id === id) {
+        for (i = 0; i < $scope.classes.length; i++) {
+            if ($scope.classes[i].Id === id) {
                 indexToDelete = i;
                 break;
             }
         }
         if (indexToDelete >= 0) {
-            $scope.groceries.splice(indexToDelete, 1);
+            $scope.classes.splice(indexToDelete, 1);
         }
 
-        if ($scope.selectedGrocery.id == id) {
-            $scope.selectedGrocery = undefined;
+        if ($scope.selectedClass.Id == id) {
+            $scope.selectedClass = undefined;
         }
     }
 });

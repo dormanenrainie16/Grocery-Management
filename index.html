@@ -1,5 +1,4 @@
-﻿﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
@@ -20,10 +19,9 @@
             font-size: 16px;
             cursor: pointer;
         }
-
         .button-bordered {
             background-color: white;
-            border: thin;
+            border:thin;
             color: black;
             padding: 15px 32px;
             text-align: center;
@@ -38,62 +36,67 @@
         }
     </style>
     <div ng-app="ABET" ng-controller="mainCtrl">
-        <h1>Shopping List</h1>
+        <h1>Welcome to CS@FSU's ABET Accreditation System</h1>
         <div style="border-bottom:solid">
-            <div ng-repeat="store in stores">
-                <div ng-click="selectStore(store)" style="float:left;margin:15px;padding:3px">
-                    <div class="menu-item" style="float:left;margin-right:5px">{{store.Name}}</div>
-                    <button class="button" style="float:left;margin-left:5px;margin-top:3px;padding:0px" ng-click="removeStore(store.Id)"><i class="fas fa-window-close"></i></button>
+            <div ng-repeat="semester in semesters">
+                <div ng-click="selectSemester(semester)" style="float:left;margin:15px;padding:3px">
+                    <div class="menu-item" style="float:left;margin-right:5px">{{semester.Name}}</div>
+                    <button class="button" style="float:left;margin-left:5px;margin-top:3px;padding:0px" ng-click="removeSemester(semester.Id)"><i class="fas fa-window-close"></i></button>
                 </div>
             </div>
-            <div ng-click="showNewStore()" style="float:left;margin:15px;padding:3px">
+            <div ng-click="showNewSemester()" style="float:left;margin:15px;padding:3px">
                 <button class="button" style="float:left;margin-left:5px;margin-top:3px;padding:0px"><i class="fas fa-plus-square"></i></button>
             </div>
         </div>
         <div style="clear:both"></div>
-        <div ng-show="!addingStore && selectedStore !== undefined">
+        <div ng-show="!addingSemester && selectedSemester !== undefined">
             <div style="float:left;width:40%">
-                <div style="width:100%;display:table-row" ng-repeat="grocery in groceries | filter:{grocery.storeId : selectedStore.Id}" ng-show="selectedStore !== undefined">
-                    <div ng-click="selectGrocery(grocery)" style="float:left;margin:15px">{{grocery.Brand}} - {{grocery.GrocName}}</div>
-                    <button class="button" style="float:left;margin-left:5px;margin-top:15px;padding:0px" ng-click="removeGrocery(grocery.id)"><i class="fas fa-window-close"></i></button>
+                <div style="width:100%;display:table-row" ng-repeat="class in classes | filter: {SemesterId:selectedSemester.Id}" ng-show="selectedSemester !== undefined">
+                    <div ng-click="selectClass(class)" style="float:left;margin:15px">{{class.CourseCode}} - {{class.CourseName}}</div>
+                    <button class="button" style="float:left;margin-left:5px;margin-top:15px;padding:0px" ng-click="removeClass(class.Id)"><i class="fas fa-window-close"></i></button>
                 </div>
                 <div style="width:100%;display:table-row">
-                    <button class="button" style="height:25px;width:50px;margin:0px 15px 15px 0px;padding:0px" ng-click="showNewGrocery()"><i class="fas fa-plus-square"></i></button>
+                    <button class="button" style="height:25px;width:50px;margin:0px 15px 15px 0px;padding:0px" ng-click="showNewClass()"><i class="fas fa-plus-square"></i></button>
                 </div>
             </div>
-            <div style="float:left;width:60%;margin-top:15px" ng-show="selectedGrocery !== undefined && !addingGrocery">
-                <div style="margin:5px"><b>Quantity:</b> {{selectedGrocery.quantity}}</div>
+            <div style="float:left;width:60%;margin-top:15px" ng-show="selectedClass !== undefined && !addingClass">
+                <div style="margin:5px"><b>Instructor:</b> {{selectedClass.Instructor}}</div>
+                <div style="margin:5px"><b>Enrollment:</b> {{selectedClass.Enrollment}}</div>
             </div>
-            <div style="float:left;width:60%;margin-top:15px" ng-show="addingGrocery">
+            <div style="float:left;width:60%;margin-top:15px" ng-show="addingClass">
 
                 <div style="display:table-row;margin-top:10px">
-                    <label style="width:30%" for="code">Brand:</label>
-                    <input style="width:100%" id="code" ng-model="selectedGrocery.Brand" />
+                    <label style="width:30%" for="code">Class Code:</label>
+                    <input style="width:100%" id="code" ng-model="selectedClass.CourseCode" />
                 </div>
 
                 <div style="display:table-row;margin-top:10px">
-                    <label style="width:30%" for="name">Grocery Name:</label>
-                    <input style="width:100%" id="name" ng-model="selectedGrocery.GrocName" />
+                    <label style="width:30%" for="name">Class Name:</label>
+                    <input style="width:100%" id="name" ng-model="selectedClass.courseName" />
                 </div>
                 <div style="display:table-row;margin-top:10px">
-                    <label style="width:30%" for="quantity">Quantity:</label>
-                    <input style="width:100%" id="quantity" ng-model="selectedGrocery.Quantity" />
+                    <label style="width:30%" for="instructor">Instructor:</label>
+                    <input style="width:100%" id="instructor" ng-model="selectedClass.instructor" />
+                </div>
+                <div style="display:table-row;margin-top:10px">
+                    <label style="width:30%" for="enrollment">Enrollment:</label>
+                    <input style="width:100%" id="enrollment" ng-model="selectedClass.enrollment" />
                 </div>
                 <div style="display:table-row;margin-top:15px">
                     <div style="float:right">
-                        <button class="button-bordered" ng-click="cancelAddGrocery()">Cancel</button>
-                        <button class="button-bordered" style="padding:15px 0px 15px 15px" ng-click="addGrocery()">Ok</button>
+                        <button class="button-bordered" ng-click="cancelAddClass()">Cancel</button>
+                        <button class="button-bordered" style="padding:15px 0px 15px 15px" ng-click="addClass()">Ok</button>
                     </div>
                 </div>
             </div>
         </div>
-        <div ng-show="addingStore" style="width:30%">
-            <label for="name">Store Name:</label>
-            <input id="name" ng-model="selectedStore.Name" />
+        <div ng-show="addingSemester" style="width:30%">
+            <label for="name">Semester Name:</label>
+            <input id="name" ng-model="selectedSemester.Name" />
             <div style="clear:both"></div>
             <div style="float:right">
-                <button class="button-bordered" ng-click="cancelAddStore()">Cancel</button>
-                <button class="button-bordered" ng-click="addStore()">Ok</button>
+                <button class="button-bordered" ng-click="cancelAddSemester()">Cancel</button>
+                <button class="button-bordered" ng-click="addSemester()">Ok</button>
             </div>
         </div>
         <!--<div class="ng-view"></div>-->

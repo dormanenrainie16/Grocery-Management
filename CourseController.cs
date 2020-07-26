@@ -18,13 +18,20 @@ namespace ShoppingSPA.Controllers.Api
             return Ok(DbMock.Classes);
         }
 
+        public int classCount = 3;
         [HttpPost]
-        [Route("AddOrUpdate")]
-        public async Task<IHttpActionResult> AddOrUpdate([FromBody] Course course)
+        [Route("AddOrUp")]
+        public async Task<IHttpActionResult> AddOrUp([FromBody] Course course)
         {
             if (course != null)
             {
-                DbMock.Classes.Add(course);
+                //classCount++;
+                if (course.Id == 6)
+                {
+                    Array.Resize(ref DbMock.Classes, 40);
+                }
+                // DbMock.Classes.Add(course);
+                DbMock.Classes[course.Id] = course;
             }
 
             return Ok(course);
