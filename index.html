@@ -62,7 +62,36 @@
             <div style="float:left;width:60%;margin-top:15px" ng-show="selectedClass !== undefined && !addingClass">
                 <div style="margin:5px"><b>Instructor:</b> {{selectedClass.Instructor}}</div>
                 <div style="margin:5px"><b>Enrollment:</b> {{selectedClass.Enrollment}}</div>
+                <button class="button" style="float:left;margin-left:5px;margin-top:3px;padding:0px" ng-click="showEditClass(selectedClass)"><i class="fas fa-pen-square"></i></button>
             </div>
+
+            <div style="float:left;width:60%;margin-top:15px" ng-show="selectedClass !== undefined && editingClass">
+
+                <div style="display:table-row;margin-top:10px">
+                    <label style="width:30%" for="code">Class Code:</label>
+                    <input style="width:100%" id="code" ng-model="selectedClass.CourseCode" />
+                </div>
+
+                <div style="display:table-row;margin-top:10px">
+                    <label style="width:30%" for="name">Class Name:</label>
+                    <input style="width:100%" id="name" ng-model="selectedClass.courseName" />
+                </div>
+                <div style="display:table-row;margin-top:10px">
+                    <label style="width:30%" for="instructor">Instructor:</label>
+                    <input style="width:100%" id="instructor" ng-model="selectedClass.instructor" />
+                </div>
+                <div style="display:table-row;margin-top:10px">
+                    <label style="width:30%" for="enrollment">Enrollment:</label>
+                    <input style="width:100%" id="enrollment" ng-model="selectedClass.enrollment" />
+                </div>
+                <div style="display:table-row;margin-top:15px">
+                    <div style="float:right">
+                        <button class="button-bordered" ng-click="cancelEdit()">Cancel</button>
+                        <button class="button-bordered" style="padding:15px 0px 15px 15px" ng-click="editClass(selectedClass.Id)">Update</button>
+                    </div>
+                </div>
+            </div>
+
             <div style="float:left;width:60%;margin-top:15px" ng-show="addingClass">
 
                 <div style="display:table-row;margin-top:10px">

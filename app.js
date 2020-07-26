@@ -51,6 +51,11 @@ app.controller('mainCtrl', function ($scope, $http) {
       //  $scope.selectedClass.course = new Object();
     }
 
+    $scope.showEditClass = function (cl) {
+        $scope.editingClass = true;
+        $scope.selectedClass = cl;
+    }
+
     $scope.addClass = function () {
         $scope.selectedClass.semesterId = $scope.selectedSemester.Id;
         // $scope.classes.push($scope.selectedClass);
@@ -73,10 +78,37 @@ app.controller('mainCtrl', function ($scope, $http) {
         $scope.addingClass = false;
     }
 
+
+    $scope.editClass = function (id) {
+        $scope.selectedClass.semesterId = $scope.selectedSemester.Id;
+        // $scope.classes.push($scope.selectedClass);
+        $scope.selectedClass.Id = id;
+
+
+        $http({
+            method: 'POST',
+            url: 'api/Course/AddOrUp',
+            data: $scope.selectedClass
+        }).then(function success(response) {
+            // $scope.classes.push(response.data);
+            $scope.classes[id] = response.data;
+        }, function failure() {
+
+        });
+
+        $scope.selectedClass = undefined;
+        $scope.editingClass = false;
+    }
+
+
     $scope.cancelAddClass = function () {
         $scope.selectedClass = undefined;
         $scope.addingClass = false;
      
+    }
+    $scope.cancelEdit = function () {
+        $scope.selectedClass = undefined;
+        $scope.editingClass = false;
     }
 
     $scope.showNewSemester = function () {

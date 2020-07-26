@@ -18,7 +18,7 @@ namespace ShoppingSPA.Controllers.Api
             return Ok(DbMock.Classes);
         }
 
-        public int classCount = 3;
+
         [HttpPost]
         [Route("AddOrUp")]
         public async Task<IHttpActionResult> AddOrUp([FromBody] Course course)
@@ -26,9 +26,9 @@ namespace ShoppingSPA.Controllers.Api
             if (course != null)
             {
                 //classCount++;
-                if (course.Id == 6)
+                if (course.Id == 499)
                 {
-                    Array.Resize(ref DbMock.Classes, 40);
+                    Array.Resize(ref DbMock.Classes, 1000);
                 }
                 // DbMock.Classes.Add(course);
                 DbMock.Classes[course.Id] = course;
