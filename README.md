@@ -10,6 +10,8 @@ Rainie worked on creating the entities and their properties, and helped with del
 
 Genevieve worked on the add, update, and delete functionalities.
 
+Both worked on the html code.
+
 The only problem we encountered was getting the first grocery item to show once it is entered. The user has to enter 2 items for the first to
 show, but we weren't sure why that was happening or how to fix it because it was still being saved to the array.
 
