@@ -1,5 +1,4 @@
-﻿﻿
-<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <html>
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
@@ -53,31 +52,80 @@
         <div style="clear:both"></div>
         <div ng-show="!addingStore && selectedStore !== undefined">
             <div style="float:left;width:40%">
-                <div style="width:100%;display:table-row" ng-repeat="grocery in groceries | filter:{grocery.storeId : selectedStore.Id}" ng-show="selectedStore !== undefined">
-                    <div ng-click="selectGrocery(grocery)" style="float:left;margin:15px">{{grocery.Brand}} - {{grocery.GrocName}}</div>
-                    <button class="button" style="float:left;margin-left:5px;margin-top:15px;padding:0px" ng-click="removeGrocery(grocery.id)"><i class="fas fa-window-close"></i></button>
+                <div style="width:100%;display:table-row" ng-repeat="grocery in groceries | filter: {StoreId:selectedStore.Id}" ng-show="selectedStore !== undefined">
+                    <div ng-click="selectGrocery(grocery)" style="float:left;margin:15px">{{grocery.Brand}} - {{grocery.GroceryItem}}</div>
+                    <button class="button" style="float:left;margin-left:5px;margin-top:15px;padding:0px" ng-click="removeGrocery(grocery.Id)"><i class="fas fa-window-close"></i></button>
                 </div>
                 <div style="width:100%;display:table-row">
                     <button class="button" style="height:25px;width:50px;margin:0px 15px 15px 0px;padding:0px" ng-click="showNewGrocery()"><i class="fas fa-plus-square"></i></button>
                 </div>
             </div>
             <div style="float:left;width:60%;margin-top:15px" ng-show="selectedGrocery !== undefined && !addingGrocery">
-                <div style="margin:5px"><b>Quantity:</b> {{selectedGrocery.quantity}}</div>
+                <div style="margin:5px"><b>Quantity:</b> {{selectedGrocery.Quantity}}</div>
+                <div style="margin:5px"><b>Aisle:</b> {{selectedGrocery.Aisle}}</div>
+                <div style="margin:5px"><b>Price:</b> {{selectedGrocery.Price}}</div>
+                <div style="margin:5px"><b>Link:</b> {{selectedGrocery.Link}}</div>
+                <button class="button" style="float:left;margin-left:5px;margin-top:3px;padding:0px" ng-click="showEditGrocery(selectedGrocery)"><i class="fas fa-pen-square"></i></button>
             </div>
-            <div style="float:left;width:60%;margin-top:15px" ng-show="addingGrocery">
 
+            <div style="float:left;width:60%;margin-top:15px" ng-show="selectedGrocery !== undefined && editingGrocery">
+
+                <div style="display:table-row;margin-top:10px">
+                    <label style="width:30%" for="groceryItem">Grocery Item:</label>
+                    <input style="width:100%" id="groceryItem" ng-model="selectedGrocery.groceryItem" />
+                </div>
                 <div style="display:table-row;margin-top:10px">
                     <label style="width:30%" for="code">Brand:</label>
                     <input style="width:100%" id="code" ng-model="selectedGrocery.Brand" />
                 </div>
-
                 <div style="display:table-row;margin-top:10px">
-                    <label style="width:30%" for="name">Grocery Name:</label>
-                    <input style="width:100%" id="name" ng-model="selectedGrocery.GrocName" />
+                    <label style="width:30%" for="link">Link:</label>
+                    <input style="width:100%" id="link" ng-model="selectedGrocery.link" />
                 </div>
                 <div style="display:table-row;margin-top:10px">
                     <label style="width:30%" for="quantity">Quantity:</label>
-                    <input style="width:100%" id="quantity" ng-model="selectedGrocery.Quantity" />
+                    <input style="width:100%" id="quantity" ng-model="selectedGrocery.quantity" />
+                </div>
+                <div style="display:table-row;margin-top:10px">
+                    <label style="width:30%" for="aisle">Aisle:</label>
+                    <input style="width:100%" id="aisle" ng-model="selectedGrocery.aisle" />
+                </div>
+                <div style="display:table-row;margin-top:10px">
+                    <label style="width:30%" for="price">Price:</label>
+                    <input style="width:100%" id="price" ng-model="selectedGrocery.price" />
+                </div>
+                <div style="display:table-row;margin-top:15px">
+                    <div style="float:right">
+                        <button class="button-bordered" ng-click="cancelEdit()">Cancel</button>
+                        <button class="button-bordered" style="padding:15px 0px 15px 15px" ng-click="editGrocery(selectedGrocery.Id)">Update</button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="float:left;width:60%;margin-top:15px" ng-show="addingGrocery">
+                <div style="display:table-row;margin-top:10px">
+                    <label style="width:30%" for="name">Grocery Item:</label>
+                    <input style="width:100%" id="name" ng-model="selectedGrocery.groceryItem" />
+                </div>
+                <div style="display:table-row;margin-top:10px">
+                    <label style="width:30%" for="code">Brand:</label>
+                    <input style="width:100%" id="code" ng-model="selectedGrocery.Brand" />
+                </div>
+                <div style="display:table-row;margin-top:10px">
+                    <label style="width:30%" for="link">Link:</label>
+                    <input style="width:100%" id="link" ng-model="selectedGrocery.link" />
+                </div>
+                <div style="display:table-row;margin-top:10px">
+                    <label style="width:30%" for="quantity">Quantity:</label>
+                    <input style="width:100%" id="quantity" ng-model="selectedGrocery.quantity" />
+                </div>
+                <div style="display:table-row;margin-top:10px">
+                    <label style="width:30%" for="aisle">Aisle:</label>
+                    <input style="width:100%" id="aisle" ng-model="selectedGrocery.aisle" />
+                </div>
+                <div style="display:table-row;margin-top:10px">
+                    <label style="width:30%" for="price">Price:</label>
+                    <input style="width:100%" id="price" ng-model="selectedGrocery.price" />
                 </div>
                 <div style="display:table-row;margin-top:15px">
                     <div style="float:right">
