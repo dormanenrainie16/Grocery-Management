@@ -29,12 +29,13 @@ namespace ShoppingSPA.Controllers.Api
         [Route("AddOrUpdate")]
         public async Task<IHttpActionResult> AddOrUpdate([FromBody] Store store)
         {
-            if(store != null)
+            if (store != null)
             {
                 DbMock.Stores.Add(store);
             }
 
             return Ok(store);
         }
+
     }
 }

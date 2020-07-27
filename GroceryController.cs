@@ -18,13 +18,20 @@ namespace ShoppingSPA.Controllers.Api
             return Ok(DbMock.Groceries);
         }
 
+
         [HttpPost]
-        [Route("AddOrUpdate")]
-        public async Task<IHttpActionResult> AddOrUpdate([FromBody] Grocery grocery)
+        [Route("AddOrUp")]
+        public async Task<IHttpActionResult> AddOrUp([FromBody] Grocery grocery)
         {
             if (grocery != null)
             {
-                DbMock.Groceries.Add(grocery);
+                //classCount++;
+                if (grocery.Id == 499)
+                {
+                    Array.Resize(ref DbMock.Groceries, 1000);
+                }
+                // DbMock.Groceries.Add(grocery);
+                DbMock.Groceries[grocery.Id] = grocery;
             }
 
             return Ok(grocery);

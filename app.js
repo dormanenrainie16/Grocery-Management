@@ -1,8 +1,9 @@
 ﻿var app = angular.module("ABET", ["ngRoute"]);
 app.controller('mainCtrl', function ($scope, $http) {
     $scope.nextStore = 4;
-    //$scope.semesters = [{ id: 1, name: 'Fall2019' }, { id: 2, name: 'Spring2020' }, { id: 3, name: 'Summer2020' }];
-    $scope.nextGrocery = 4;
+    //$scope.stores = [{ id: 1, name: 'Fall2019' }, { id: 2, name: 'Spring2020' }, { id: 3, name: 'Summer2020' }];
+    // $scope.classes[0] = {Id: 0, GroceryItem: 'Software Engineering 1', Brand: 'CEN 4020', Quantity: 120, Link: "Sonya P", StoreId: 1};
+    $scope.nextGrocery = 0;
     $http({
         method: 'GET',
         url: 'api/Store/Get'
@@ -21,51 +22,104 @@ app.controller('mainCtrl', function ($scope, $http) {
 
     });
 
+    $http({
+        method: 'GET',
+        url: 'api/Grocery/Get'
+    }).then(function success(response) {
+        $scope.groceries = response.data;
+    }, function failure() {
 
+    });
 
     $scope.selectStore = function (store) {
         $scope.addingStore = false;
-        $scope.selectedGroc = undefined;
+        $scope.selectedGrocery = undefined;
         $scope.selectedStore = store;
     }
 
-    // $scope.classes = [{ id: 0, course: { id: 0, courseName: 'Software Engineering 1', courseCode: 'CEN 4020' }, semesterId: 2, instructor: 'Chris Mills', syllabus: null, canvasLink: '', enrollment: 120 },
-    //    { id: 1, course: { id: 1, courseName: 'C# Application Development', courseCode: 'CIS 4930' }, semesterId: 1, instructor: 'Chris Mills', syllabus: null, canvasLink: '', enrollment: 17 }];
+    // $scope.classes = [{ id: 0, grocery: { id: 0, courseName: 'Software Engineering 1', courseCode: 'CEN 4020' }, storeId: 2, link: 'Chris Mills', syllabus: null, canvasLink: '', quantity: 120 },
+    //    { id: 1, grocery: { id: 1, courseName: 'C# Application Development', courseCode: 'CIS 4930' }, storeId: 1, link: 'Chris Mills', syllabus: null, canvasLink: '', quantity: 17 }];
 
-    $scope.selectGrocery = function (groc) {
+    $scope.selectGrocery = function (cl) {
         $scope.addingGrocery = false;
-        $scope.selectedGrocery = groc;
+        $scope.selectedGrocery = cl;
     }
 
     $scope.showNewGrocery = function () {
         $scope.addingGrocery = true;
         $scope.selectedGrocery = new Object();
-        $scope.selectedGrocery.grocery = new Object();
+        //  $scope.selectedGrocery.grocery = new Object();
     }
 
-    $scope.addGrocry = function () {
+    $scope.showEditGrocery = function (cl) {
+        $scope.editingGrocery = true;
+        $scope.selectedGrocery = cl;
+    }
+
+    $scope.addGrocery = function () {
         $scope.selectedGrocery.storeId = $scope.selectedStore.Id;
-        // $scope.classes.push($scope.selectedClass);
-        $scope.selectedGrocery.id = $scope.nextGrocery;
-        $scope.nextGrocery += 1;
+        // $scope.classes.push($scope.selectedGrocery);
+        $scope.selectedGrocery.Id = $scope.nextGrocery;
+
 
         $http({
             method: 'POST',
-            url: 'api/Grocery/AddOrUpdate',
+            url: 'api/Grocery/AddOrUp',
             data: $scope.selectedGrocery
         }).then(function success(response) {
-            $scope.groceries.push(response.data);
+            // $scope.classes.push(response.data);
+            $scope.groceries[nextGrocery] = response.data;
+        }, function failure() {
+
+        });
+
+        $scope.nextGrocery += 1;
+        $scope.selectedGrocery = undefined;
+        $scope.addingGrocery = false;
+
+        $http({
+            method: 'GET',
+            url: 'api/Grocery/Get'
+        }).then(function success(response) {
+            $scope.groceries = response.data;
+        }, function failure() {
+
+        });
+
+  
+    }
+
+
+    $scope.editGrocery = function (id) {
+        $scope.selectedGrocery.storeId = $scope.selectedStore.Id;
+        // $scope.classes.push($scope.selectedGrocery);
+        $scope.selectedGrocery.Id = id;
+
+
+        $http({
+            method: 'POST',
+            url: 'api/Grocery/AddOrUp',
+            data: $scope.selectedGrocery
+        }).then(function success(response) {
+            // $scope.classes.push(response.data);
+            $scope.groceries[id] = response.data;
         }, function failure() {
 
         });
 
         $scope.selectedGrocery = undefined;
-        $scope.addingGrocery = false;
+        $scope.editingGrocery = false;
     }
+
 
     $scope.cancelAddGrocery = function () {
         $scope.selectedGrocery = undefined;
         $scope.addingGrocery = false;
+
+    }
+    $scope.cancelEdit = function () {
+        $scope.selectedGrocery = undefined;
+        $scope.editingGrocery = false;
     }
 
     $scope.showNewStore = function () {
@@ -99,7 +153,7 @@ app.controller('mainCtrl', function ($scope, $http) {
     $scope.removeStore = function (id) {
         var indexToDelete = -1;
         for (i = 0; i < $scope.stores.length; i++) {
-            if ($scope.stores[i].id === id) {
+            if ($scope.stores[i].Id === id) {
                 indexToDelete = i;
                 break;
             }
@@ -113,7 +167,7 @@ app.controller('mainCtrl', function ($scope, $http) {
     $scope.removeGrocery = function (id) {
         var indexToDelete = -1;
         for (i = 0; i < $scope.groceries.length; i++) {
-            if ($scope.groceries[i].id === id) {
+            if ($scope.groceries[i].Id === id) {
                 indexToDelete = i;
                 break;
             }
@@ -122,7 +176,7 @@ app.controller('mainCtrl', function ($scope, $http) {
             $scope.groceries.splice(indexToDelete, 1);
         }
 
-        if ($scope.selectedGrocery.id == id) {
+        if ($scope.selectedGrocery.Id == id) {
             $scope.selectedGrocery = undefined;
         }
     }
