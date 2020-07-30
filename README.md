@@ -6,16 +6,11 @@ The user can also create new objects (stores and grocery item), read their lists
 
 This application was created by Rainie Dormanen (rd16) and Genevieve Larkins (gtl16).
 
-Rainie worked on creating the entities and their properties, and helped with delete function.
+Both Genevieve and Rainie worked on all parts of Assignment 5 together
 
-Genevieve worked on the add, update, and delete functionalities.
-
-Both worked on the html code.
-
-The only problem we encountered was getting the first grocery item to show once it is entered. The user has to enter 2 items for the first to
-show, but we weren't sure why that was happening or how to fix it because it was still being saved to the array.
+Only one laptop could install the SSMS database, so we had to work on the same computer and before VisualStudio stopped working we had a bunch of migration linking errors and using library errors, so the code that we wrote is what we thought would work based off of the code walkthrough videos.
 
 
 Video Link:
-https://youtu.be/yISK-EJyoyI
+
 
