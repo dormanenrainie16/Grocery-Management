@@ -12,5 +12,5 @@ Only one laptop could install the SSMS database, so we had to work on the same c
 
 
 Video Link:
-
+https://youtu.be/CzBVXUVMNC0
 
